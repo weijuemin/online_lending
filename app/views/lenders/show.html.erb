@@ -23,6 +23,7 @@
       <th>Action</th>
     </tr>
     <% Borrower.all.each do |b| %>
+      <% if b.raised < b.money %>
       <tr>
         <td><%= b.first_name %> <%= b.last_name %></td>
         <td><%= b.purpose %></td>
@@ -39,6 +40,7 @@
           </form>
         </td>
       </tr>
+      <% end -%>
     <% end -%>
   </table>
 
