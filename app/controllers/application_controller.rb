@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   end
 
   def correct_url
-    require "URI"
+    require "uri"
     uri = URI(request.original_url)
     role = uri.path.split("/")[-2]
     if (session[:id] == params[:id].to_i) and (role == session[:role])
