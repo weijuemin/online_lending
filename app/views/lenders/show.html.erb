@@ -23,24 +23,22 @@
       <th>Action</th>
     </tr>
     <% Borrower.all.each do |b| %>
-      <% if b.histories.find_by(lender: @lender) == nil %>
-        <tr>
-          <td><%= b.first_name %> <%= b.last_name %></td>
-          <td><%= b.purpose %></td>
-          <td><%= b.description %></td>
-          <td>$<%= b.money %></td>
-          <td>$<%= b.raised %></td>
-          <td>
-            <form action="/lend" method="post">
-              <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-              <input type="hidden" name="_method" value="patch">
-              <input type="hidden" name="h[b_id]" value="<%= b.id %>">
-              <input type="number" name="h[amount]" value="25" class="amt">
-              <input type="submit" class="btn btn-default btn-xs" name="submit" value="Lend">
-            </form>
-          </td>
-        </tr>
-      <% end -%>
+      <tr>
+        <td><%= b.first_name %> <%= b.last_name %></td>
+        <td><%= b.purpose %></td>
+        <td><%= b.description %></td>
+        <td>$<%= b.money %></td>
+        <td>$<%= b.raised %></td>
+        <td>
+          <form action="/lend" method="post">
+            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+            <input type="hidden" name="_method" value="patch">
+            <input type="hidden" name="h[b_id]" value="<%= b.id %>">
+            <input type="number" name="h[amount]" value="25" class="amt">
+            <input type="submit" class="btn btn-default btn-xs" name="submit" value="Lend" id="lendBtn">
+          </form>
+        </td>
+      </tr>
     <% end -%>
   </table>
 

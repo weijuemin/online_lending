@@ -6,9 +6,10 @@ class MainController < ApplicationController
     l = Lender.create(lender_params)
     if l.valid?
       session[:id] = l.id
+      session[:role] = 'lender'
       redirect_to "/online_lending/login"
     else
-      session[:id] = nil
+      session.clear
       flash[:error] = l.errors.full_messages
       redirect_to "/online_lending/register"
     end
@@ -18,9 +19,10 @@ class MainController < ApplicationController
     b = Borrower.create(borrower_params)
     if b.valid?
       session[:id] = b.id
+      session[:role] = 'borrower'
       redirect_to "/online_lending/login"
     else
-      session[:id] = nil
+      session.clear
       flash[:error] = b.errors.full_messages
       redirect_to "/online_lending/register"
     end
@@ -34,6 +36,7 @@ class MainController < ApplicationController
     if lender
       if lender.authenticate(params[:user][:password])
         session[:id] = lender.id
+        session[:role] = 'lender'
         redirect_to "/online_lending/lender/#{lender.id}"
       else
         flash[:error] = ["Incorrect password!"]
@@ -50,6 +53,7 @@ class MainController < ApplicationController
     if borrower
       if borrower.authenticate(params[:user][:password])
         session[:id] = borrower.id
+        session[:role] = 'borrower'
         redirect_to "/online_lending/borrower/#{borrower.id}"
       else
         flash[:error] = ["Incorrect password!"]
