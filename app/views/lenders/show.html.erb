@@ -1,0 +1,72 @@
+<div class="row">
+  <table class="user col-lg-5 col-md-5 col-sm-8">
+    <tr>
+      <th>Name:</th>
+      <td><%= @lender.first_name %> <%= @lender.last_name %></td>
+    </tr>
+    <tr>
+      <th>Account Balance:</th>
+      <td>$<%= @lender.money %> <%= button_to "Add $50", "/add_balance/#{session[:id]}", method: :patch, class: "btn btn-info btn-xs" %></td>
+    </tr>
+  </table>
+</div>
+<hr>
+<div class="row">
+  <table class="table table-striped">
+    <caption>List of people in need of help:</caption>
+    <tr>
+      <th>Name</th>
+      <th>Need money for</th>
+      <th>Reason for load</th>
+      <th>Amount needed</th>
+      <th>Amount raised</th>
+      <th>Action</th>
+    </tr>
+    <% Borrower.all.each do |b| %>
+      <% if b.histories.find_by(lender: @lender) == nil %>
+        <tr>
+          <td><%= b.first_name %> <%= b.last_name %></td>
+          <td><%= b.purpose %></td>
+          <td><%= b.description %></td>
+          <td>$<%= b.money %></td>
+          <td>$<%= b.raised %></td>
+          <td>
+            <form action="/lend" method="post">
+              <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+              <input type="hidden" name="_method" value="patch">
+              <input type="hidden" name="h[b_id]" value="<%= b.id %>">
+              <input type="number" name="h[amount]" value="25" class="amt">
+              <input type="submit" class="btn btn-default btn-xs" name="submit" value="Lend">
+            </form>
+          </td>
+        </tr>
+      <% end -%>
+    <% end -%>
+  </table>
+
+  <table class="table table-striped">
+    <caption>List of people you lent money to:</caption>
+    <% if @histories %>
+    <tr>
+      <th>Name</th>
+      <th>Need money for</th>
+      <th>Reason for load</th>
+      <th>Amount needed</th>
+      <th>Amount raised</th>
+      <th>Amount lent</th>
+    </tr>
+    <% @histories.each do |h| %>
+    <tr>
+      <td><%= h.borrower.first_name %> <%= h.borrower.last_name %></td>
+      <td><%= h.borrower.purpose %></td>
+      <td><%= h.borrower.description %></td>
+      <td>$<%= h.borrower.money %></td>
+      <td>$<%= h.borrower.raised %></td>
+      <td>$<%= h.amount %></td>
+    </tr>
+    <% end -%>
+    <% else -%>
+    <tr><td>No one yet...</td></tr>
+    <% end -%>
+  </table>
+</div>

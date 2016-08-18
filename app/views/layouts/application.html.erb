@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BeltReviewer</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'bootstrap', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= stylesheet_link_tag    'jqueryui', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'jquery', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_include_tag 'jqueryui', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'bootstrap', 'data-turbolinks-track': 'reload' %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <% if session[:id] %>
+  <div class="container-fluid header">
+    Online lending and borrowing
+    <button class="btn btn-link topright"><a href="/users/logout">Logout</a></button>
+  </div>
+  <% end -%>
+
+  <% if flash[:error] %>
+  <div class="err">
+    <% flash[:error].each do |msg| %>
+      <p class="errMsg"><%= msg %></p>
+    <% end -%>
+  </div>
+  <% end -%>
+  
+  <div class="container">
+    <%= yield %>
+  </div>
+  </body>
+</html>

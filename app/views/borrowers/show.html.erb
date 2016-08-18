@@ -1,0 +1,38 @@
+<div class="row">
+  <table class="user col-lg-5 col-md-5 col-sm-8">
+    <tr>
+      <th>Name:</th>
+      <td><%= @borrower.first_name %> <%= @borrower.last_name %></td>
+    </tr>
+    <tr>
+      <th>Account Need:</th>
+      <td>$<%= @borrower.money %></td>
+    </tr>
+    <tr>
+      <th>Account Raised:</th>
+      <td>$<%= @borrower.raised %></td>
+    </tr>
+  </table>
+</div>
+<hr>
+<div class="row">
+  <table class="table table-striped">
+    <caption>List of people who lent you money:</caption>
+    <% if @borrower.raised == 0 %>
+    <tr><td>Oops, no one lent you money yet...</td></tr>
+    <% else %>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Amount lent</th>
+    </tr>
+      <% @histories.each do |h| %>
+      <tr>
+        <td><%= h.lender.first_name %> <%= h.lender.first_name %></td>
+        <td><%= h.lender.email %></td>
+        <td>$<%= h.amount %></td>
+      </tr>
+      <% end -%>
+    <% end -%>
+  </table>
+</div>
